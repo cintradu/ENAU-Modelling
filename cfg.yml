@@ -1,0 +1,15 @@
+simulation:
+    analysis: PDA
+    req_pressure: 10
+    min_pressure: 0
+    headloss: D-W
+    duration: 86400
+    hydraulic_timestep: 3600
+    pattern_timestep: 3600
+    report_timestep: 3600
+
+failure:
+    leak_area_ratios: [0.10, 0.20, 0.30, 0.40]
+    water_supply_ratios: [0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90]
+
+

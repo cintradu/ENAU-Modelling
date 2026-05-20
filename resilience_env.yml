@@ -1,0 +1,14 @@
+# resilience_env.yml
+name: resilience_env
+channels:
+    - defaults
+    - conda-forge
+dependencies:
+    - python = 3.13
+    - pandas = 3.0
+    - pyyaml
+    - openpyxl
+    - numpy = 2.4
+    - matplotlib = 3.10
+    - rich
+    - wntr = 1.4
