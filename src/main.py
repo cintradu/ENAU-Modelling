@@ -15,7 +15,12 @@ def main():
 
 	inp_file_path, config_file_path, failure_type = build_parser()
 
-	simulation_config, failure_config = load_config(config_file_path) 
+	try:
+		simulation_config, failure_config = load_config(config_file_path) 
+
+	except Exception:
+		logger.exception('Could not load configuration')
+		sys.exit(1)
 
 	console = Console()
 
@@ -25,7 +30,7 @@ def main():
 		pipeline.run(inp_file_path, failure_type)
 
 	except Exception:
-		logger.exception('Fatal error in pipeline')
+		logger.fatal('Fatal error in aplication')
 		sys.exit(1)
 
 

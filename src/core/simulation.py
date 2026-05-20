@@ -9,27 +9,26 @@ from utils.config import SimulationConfig
 logger = logging.getLogger(__name__)
 
 
+BASELINE_WN = None
+
 # Run Hydraulic Simulation
 # Uses WNTR library to run EPANET 2.2 engine and collect results
 # wn: [WaterNetworkModel Object] WNTR network model (You can use the GenerateWN function to get the model)
 # results: [SimulationResults Object] contains data from nodes and links: two dictionaries with Dataframes for variables such as demand, pressure, velocity, flowrate, etc
-def run_hydraulic_simulation(inp_file_path, simulation_config, scenario):
+def run_hydraulic_simulation(scenario):
 
-	warnings.filterwarnings(
-	    "ignore",
-	    category=UserWarning,
-	    module='wntr'
-	)
+	if BASELINE_WN is None:
+
+		raise RuntimeError('BASELINE_WN was not initialized. Make sure Pool initializer is set correctly')
 
 	with tempfile.TemporaryDirectory() as tmpdir:
 
-		wn = configure_water_network_model(inp_file_path, simulation_config)
+		wn = deepcopy(BASELINE_WN)
 		scenario.apply(wn)
 		
 		sim = wntr.sim.EpanetSimulator(wn)
-
 		results = sim.run_sim(file_prefix=tmpdir+'/run', convergence_error=True)
-	
+		
 	return results
 
 
@@ -50,3 +49,10 @@ def configure_water_network_model(inp_file_path, simulation_config):
 	wn.options.time.report_timestep = simulation_config.report_timestep
 	
 	return wn
+
+
+def set_global_baseline_wn(baseline_wn):
+
+	global BASELINE_WN
+
+	BASELINE_WN = baseline_wn

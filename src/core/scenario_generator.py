@@ -6,9 +6,7 @@ from core import failures
 logger = logging.getLogger(__name__)
 
 
-def generate_leak_scenarios(inp_file_name, simulation_config, failure_config):
-
-	baseline_wn = simulation.configure_water_network_model(inp_file_name, simulation_config)
+def generate_leak_scenarios(baseline_wn, failure_config):
 
 	scenarios = []
 
