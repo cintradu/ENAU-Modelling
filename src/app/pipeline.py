@@ -27,16 +27,16 @@ class Pipeline():
 			match failure_type:
 
 				case 'L':
-					scenarios = scenario_generator.generate_leak_scenarios(baseline_wn, self.failure_config)
+					scenarios_list = scenario_generator.generate_leak_scenarios(baseline_wn, self.failure_config)
 
 				case 'R':
-					scenarios = scenario_generator.generate_rupture_scenarios(baseline_wn, self.failure_config)
+					scenarios_list = scenario_generator.generate_rupture_scenarios(baseline_wn, self.failure_config)
 
 				case 'P':
-					scenarios = scenario_generator.generate_pump_scenarios(baseline_wn, self.failure_config)
+					scenarios_list = scenario_generator.generate_pump_scenarios(baseline_wn, self.failure_config)
 
 				case 'W':
-					scenarios = scenario_generator.generate_water_supply_scenarios(baseline_wn, self.failure_config)
+					scenarios_list = scenario_generator.generate_water_supply_scenarios(baseline_wn, self.failure_config)
 
 				case 'B':
 					results = wntr.sim.EpanetSimulator(baseline_wn).run_sim(convergence_error=True)
@@ -51,12 +51,12 @@ class Pipeline():
 			logger.exception(f'Failed generating scenarios')
 			raise
 		
-		self.console.log("Running hydraulic simulations...", style='bold green')
+		self.console.log("Running Hydraulic Simulations...", style='bold green')
 
 		try:
-			with Pool(initializer=simulation.set_global_baseline_wn, initargs=(baseline_wn,)) as pool:
+			with Pool() as pool:
 
-				results = pool.map(simulation.run_hydraulic_simulation, scenarios)	
+				results = pool.starmap(simulation.run_hydraulic_simulation, scenarios_list)	
 
 			self.console.log("✔ Success", style='bold green')
 

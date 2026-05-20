@@ -1,52 +1,52 @@
 import logging
 import uuid
 
-from core import failures
+from core import failures, simulation
 
 logger = logging.getLogger(__name__)
 
 
 def generate_leak_scenarios(baseline_wn, failure_config):
 
-	scenarios = []
+	scenarios_list = []
 
 	for leak_ratio in failure_config.leak_area_ratios:
 
 		for pipe_name, _ in baseline_wn.pipes(): 
 
-			description = failures.LeakFailure(simulation_id=str(uuid.uuid4()),
+			scenario = failures.LeakFailure(simulation_id=str(uuid.uuid4()),
 												simulation_type='L',
 												element_name=pipe_name,
 												magnitude=leak_ratio,
 												time=0,
 												duration=86400)
 
-			scenarios.append(description)
+			scenarios_list.append((baseline_wn, scenario))
 
-	return scenarios
+	return scenarios_list
 
 
 def generate_rupture_scenarios(baseline_wn, failure_config):
 
-	scenarios = []
+	scenarios_list = []
 
 	for pipe_name, _ in baseline_wn.pipes(): 
 
-		description = failures.RuptureFailure(simulation_id=str(uuid.uuid4()),
+		scenario = failures.RuptureFailure(simulation_id=str(uuid.uuid4()),
 													simulation_type='R',
 													element_name=pipe_name,
 													magnitude=0,
 													time=0,
 													duration=86400)
 
-		scenarios.append(description)
+		scenarios_list.append((baseline_wn, scenario))
 
-	return scenarios
+	return scenarios_list
 
 
 def generate_pump_scenarios(baseline_wn, failure_config):
 
-	scenarios = []
+	scenarios_list = []
 
 	for time in range(0, 24*3600, 3600):
 
@@ -54,33 +54,33 @@ def generate_pump_scenarios(baseline_wn, failure_config):
 
 			for pump_name, _ in baseline_wn.pumps(): 
 
-				description = failures.PumpFailure(simulation_id=str(uuid.uuid4()),
+				scenario = failures.PumpFailure(simulation_id=str(uuid.uuid4()),
 												simulation_type='P',
 												element_name=pump_name,
 												magnitude=0,
 												time=time,
 												duration=duration)
 
-			scenarios.append(description)
+			scenarios_list.append((baseline_wn, scenario))
 
-	return scenarios
+	return scenarios_list
 
 
 def generate_water_supply_scenarios(baseline_wn, failure_config):
 
-	scenarios = []
+	scenarios_list = []
 
 	for supply_ratio in failure_config.water_supply_ratios:
 
 		for reservoir_name, _ in baseline_wn.reservoirs():
 
-			description = failures.WaterSupplyFailure(simulation_id=str(uuid.uuid4()),
+			scenario = failures.WaterSupplyFailure(simulation_id=str(uuid.uuid4()),
 														simulation_type='W',
 														element_name=reservoir_name,
 														magnitude=supply_ratio,
 														time=0,
 														duration=86400)
 
-			scenarios.append(description)
+			scenarios_list.append((baseline_wn, scenario))
 
-	return scenarios
+	return scenarios_list

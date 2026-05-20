@@ -11022,3 +11022,116 @@ Traceback (most recent call last):
     raise self._value
 NameError: name 'BASELIE_WN' is not defined
 2026-05-20 00:24:57,616 [CRITICAL] (__main__) Fatal error in aplication
+2026-05-20 00:36:31,442 [ERROR] (app.pipeline) Hydraulic simulation error
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 51, in starmapstar
+    return list(itertools.starmap(args[0], args[1]))
+TypeError: run_hydraulic_simulation() takes 1 positional argument but 3 were given
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/app/pipeline.py", line 62, in run
+    results = pool.starmap(simulation.run_hydraulic_simulation, tasks)
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 375, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 774, in get
+    raise self._value
+TypeError: run_hydraulic_simulation() takes 1 positional argument but 3 were given
+2026-05-20 00:36:31,444 [CRITICAL] (__main__) Fatal error in aplication
+2026-05-20 00:37:35,032 [ERROR] (app.pipeline) Hydraulic simulation error
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 51, in starmapstar
+    return list(itertools.starmap(args[0], args[1]))
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/core/simulation.py", line 22, in run_hydraulic_simulation
+    raise RuntimeError('BASELINE_WN was not initialized. Make sure Pool initializer is set correctly')
+RuntimeError: BASELINE_WN was not initialized. Make sure Pool initializer is set correctly
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/app/pipeline.py", line 62, in run
+    results = pool.starmap(simulation.run_hydraulic_simulation, tasks)
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 375, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 774, in get
+    raise self._value
+RuntimeError: BASELINE_WN was not initialized. Make sure Pool initializer is set correctly
+2026-05-20 00:37:35,034 [CRITICAL] (__main__) Fatal error in aplication
+2026-05-20 00:37:50,894 [ERROR] (app.pipeline) Hydraulic simulation error
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 51, in starmapstar
+    return list(itertools.starmap(args[0], args[1]))
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/core/simulation.py", line 26, in run_hydraulic_simulation
+    baseline_wn = simulation.configure_water_network_model(inp_file_path, simulation_config)
+                  ^^^^^^^^^^
+NameError: name 'simulation' is not defined
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/app/pipeline.py", line 62, in run
+    results = pool.starmap(simulation.run_hydraulic_simulation, tasks)
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 375, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 774, in get
+    raise self._value
+NameError: name 'simulation' is not defined
+2026-05-20 00:37:50,897 [CRITICAL] (__main__) Fatal error in aplication
+2026-05-20 00:41:14,918 [ERROR] (app.pipeline) Hydraulic simulation error
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/core/simulation.py", line 26, in run_hydraulic_simulation
+    baseline_wn = configure_water_network_model(inp_file_path, simulation_config)
+                                                ^^^^^^^^^^^^^
+NameError: name 'inp_file_path' is not defined
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/app/pipeline.py", line 59, in run
+    results = pool.map(simulation.run_hydraulic_simulation, scenarios)
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cintradu/miniconda3/envs/resilience_env/lib/python3.13/multiprocessing/pool.py", line 774, in get
+    raise self._value
+NameError: name 'inp_file_path' is not defined
+2026-05-20 00:41:14,920 [CRITICAL] (__main__) Fatal error in aplication
+2026-05-20 00:52:23,078 [ERROR] (app.pipeline) Failed generating scenarios
+Traceback (most recent call last):
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/app/pipeline.py", line 30, in run
+    scenarios_list = scenario_generator.generate_leak_scenarios(baseline_wn, self.failure_config)
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/core/scenario_generator.py", line 24, in generate_leak_scenarios
+    scenarios.append((baseline_wn, scenario))
+    ^^^^^^^^^
+NameError: name 'scenarios' is not defined. Did you mean: 'scenario'?
+2026-05-20 00:52:23,079 [CRITICAL] (__main__) Fatal error in aplication

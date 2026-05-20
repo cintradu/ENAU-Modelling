@@ -43,6 +43,5 @@ if __name__ == '__main__':
 
 ## Documentação do código
 ## Fazer database e análise dos resultados
-## Resolver os warnings
-## Criar a rede do zero ou fazer tudo via path?
-
+## UI ??
+## Leakage benchmark: 40.34 s
