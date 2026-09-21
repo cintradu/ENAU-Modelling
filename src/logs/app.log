@@ -1,0 +1,10 @@
+2026-05-23 19:15:43,537 [ERROR] (__main__) Erro in configuration file load
+Traceback (most recent call last):
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/main.py", line 22, in main
+    simulation_config, failure_config = unpack_config(f'{CONFIG_DIR}/{config_file}')
+                                        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cintradu/IC/ENAU/ENAU-Modelling/src/utils/config.py", line 33, in unpack_config
+    with open(config_file_path, 'r') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/cintradu/IC/ENAU/ENAU-Modelling/src/cfg/cfg.yml'
+2026-05-23 19:15:43,538 [CRITICAL] (__main__) Fatal error

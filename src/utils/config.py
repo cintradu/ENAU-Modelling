@@ -1,8 +1,12 @@
-from dataclasses import dataclass
 import yaml
+import logging
+from pydantic import BaseModel
 
-@dataclass(frozen=True, kw_only=True)
-class SimulationConfig:
+logger = logging.getLogger(__name__)
+
+
+class SimulationConfig(BaseModel):
+	network_name: str
 	analysis: str
 	req_pressure: int
 	min_pressure: int
@@ -13,18 +17,25 @@ class SimulationConfig:
 	report_timestep: int
 
 
-@dataclass(frozen=True, kw_only=True)
-class FailureConfig:
+class FailureConfig(BaseModel):
+	failure_type: str
 	leak_area_ratios: list
 	water_supply_ratios: list
-		
 
-def load_config(config_file_path):
 
-	with open(config_file_path, 'r') as f:
-		config = yaml.safe_load(f)
+def unpack_config(config_file_path):
+
+	try:
+		with open(config_file_path, 'r') as f:
+			config = yaml.safe_load(f)
+
+	except FileNotFoundError:
+		logger.error('Configuration file not found')
+		raise
 
 	simulation_config = SimulationConfig(**config['simulation'])
 	failure_config = FailureConfig(**config['failure'])
+
+	logger.debug('Loaded configuration parameters')
 
 	return simulation_config, failure_config

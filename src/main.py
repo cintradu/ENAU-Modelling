@@ -1,47 +1,36 @@
+import wntr
 import logging
-from rich.console import Console
 import sys
+from rich.console import Console
+
 
 from core import simulation
+from app.paths import NETWORKS_DIR, CONFIG_DIR, initialize_directories
 from app.pipeline import Pipeline
 from utils.logger import build_logger
 from utils.parser import build_parser
-from utils.config import load_config
+from utils.config import unpack_config, configure_water_network_model
 
 logger = logging.getLogger(__name__)
 
 
 def main():
 
-	inp_file_path, config_file_path, failure_type = build_parser()
+	config_file = build_parser()
 
-	try:
-		simulation_config, failure_config = load_config(config_file_path) 
-
-	except Exception:
-		logger.exception('Could not load configuration')
-		sys.exit(1)
+	simulation_config, failure_config = unpack_config(f'{CONFIG_DIR}/{config_file}') 
 
 	console = Console()
 
 	pipeline = Pipeline(simulation_config, failure_config, console)
 
-	try:
-		pipeline.run(inp_file_path, failure_type)
-
-	except Exception:
-		logger.fatal('Fatal error in aplication')
-		sys.exit(1)
+	pipeline.run()
 
 
 if __name__ == '__main__':
+
+	initialize_directories()
 	
 	build_logger()
 
 	main()
-
-
-## Documentação do código
-## Fazer database e análise dos resultados
-## UI ??
-## Leakage benchmark: 40.34 s

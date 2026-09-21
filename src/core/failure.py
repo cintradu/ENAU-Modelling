@@ -7,15 +7,14 @@ logger = logging.getLogger(__name__)
 
 @dataclass(kw_only=True)
 class Failure():
-	simulation_id: str
-	simulation_type: str
+	failure_type: str
 	element_name: str
 	magnitude: float
 	time: int
 	duration: int 
 
 
-@dataclass(kw_only=True)
+# remember add_leak!
 class LeakFailure(Failure):
 
 	def apply(self, wn):
@@ -36,7 +35,6 @@ class LeakFailure(Failure):
 		node.emmiter_coefficient = C
 
 
-@dataclass(kw_only=True)
 class RuptureFailure(Failure):
 
 	def apply(self, wn):
@@ -56,7 +54,6 @@ class RuptureFailure(Failure):
 		wn.add_pipe('rupture_pipe_end', end_node.name, 'rupture_reservoir', diameter=pipe.diameter, roughness=pipe.roughness, check_valve=True)
 
 
-@dataclass(kw_only=True)
 class PumpFailure(Failure):
 
 	def apply(self, wn):
@@ -65,11 +62,11 @@ class PumpFailure(Failure):
 		pump.add_outage(wn, self.time, self.time+self.duration, add_after_outage_rule=True)
 
 
-@dataclass(kw_only=True)
 class WaterSupplyFailure(Failure):
 
-	def apply(self, wn):
+	def apply_water_supply_failure(self, wn):
 
 		reservoir = wn.get_node(self.element_name)
+
 		reduced_reservoir_base_head = reservoir.base_head * self.magnitude
 		reservoir.base_head = reduced_reservoir_base_head

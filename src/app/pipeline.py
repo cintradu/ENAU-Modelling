@@ -3,7 +3,7 @@ import wntr
 import sys
 from multiprocessing import Pool
 
-from core import scenario_generator, simulation, failures, metric, graphic
+from core import simulation, metric, graphic, generator
 from utils.utils import runtime
 
 logger = logging.getLogger(__name__)
@@ -17,57 +17,43 @@ class Pipeline():
 		self.console = console
 
 	@runtime
-	def run(self, inp_file_path, failure_type):
+	def run(self):
 		
-		baseline_wn = simulation.configure_water_network_model(inp_file_path, self.simulation_config)
+		simulation.initialize_baseline_network(self.simulation_config)
 
 		self.console.log('Generating Failure Scenarios...', style='bold green')
 
-		try:
-			match failure_type:
+		match failure_config.failure_type:
 
-				case 'L':
-					scenarios_list = scenario_generator.generate_leak_scenarios(baseline_wn, self.failure_config)
+			case 'L':
+				scenarios = generator.generate_leakage_scenarios(baseline_wn.pipes(), self.failure_config)
+	
+			case 'R':
+				scenarios = generator.generate_rupture_scenarios(baseline_wn.pipes(), self.failure_config)
 
-				case 'R':
-					scenarios_list = scenario_generator.generate_rupture_scenarios(baseline_wn, self.failure_config)
+			case 'P':
+				scenarios = generator.generate_pump_scenarios(baseline_wn.pumps(), self.failure_config)
 
-				case 'P':
-					scenarios_list = scenario_generator.generate_pump_scenarios(baseline_wn, self.failure_config)
+			case 'W':
+				scenarios = generator.generate_water_supply_scenarios(baseline_wn.reservoirs(), self.failure_config)
 
-				case 'W':
-					scenarios_list = scenario_generator.generate_water_supply_scenarios(baseline_wn, self.failure_config)
+			case 'B':
+				scenarios = []
 
-				case 'B':
-					results = wntr.sim.EpanetSimulator(baseline_wn).run_sim(convergence_error=True)
-
-				case _:
-					raise ValueError('Invalid type of failure')
-					
-			self.console.log("✔ Success", style='bold green')
-
-		except Exception:
-
-			logger.exception(f'Failed generating scenarios')
-			raise
+			case _:
+				raise ValueError('Invalid type of failure')
+				
+		self.console.log("✔ Success", style='bold green')
 		
 		self.console.log("Running Hydraulic Simulations...", style='bold green')
 
-		try:
-			with Pool() as pool:
+		with Pool() as pool:
+			results = pool.map(simulation.execute, scenarios)	
 
-				results = pool.starmap(simulation.run_hydraulic_simulation, scenarios_list)	
+		self.console.log("✔ Success", style='bold green')
 
-			self.console.log("✔ Success", style='bold green')
 
-		except Exception:
-
-			logger.exception(f'Hydraulic simulation error')
-			raise
-
-		print(len(results))
-
-		#graphic.GenerateRuptureMap(baseline_model_result.wn, failure_result_list)
-		#metric.PrintResult(failure_result_list, simulation_settings.result_file)
+		graphic.GenerateRuptureMap(baseline_model_result.wn, failure_result_list)
+		metric.PrintResult(failure_result_list, simulation_settings.result_file)
 
 		self.console.log("✔ OK", style='bold green')

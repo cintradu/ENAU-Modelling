@@ -5,7 +5,6 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 
-
 def print_result(result_list, path):
 
 	result_dict = {}

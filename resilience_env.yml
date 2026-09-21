@@ -6,8 +6,11 @@ channels:
 dependencies:
     - python = 3.13
     - pandas = 3.0
+    - pyarrow
     - pyyaml
     - openpyxl
+    - duckdb
+    - pydantic
     - numpy = 2.4
     - matplotlib = 3.10
     - rich
