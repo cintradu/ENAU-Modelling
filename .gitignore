@@ -1,3 +1,8 @@
+.__pycache__/
+.vscode
+
+logs/
 networks/
 results/
-
+resilience_env.yml
+run.sh
