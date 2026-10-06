@@ -1,8 +1,8 @@
-__pycache__
-.vscode
+__pycache__/
+.vscode/
 
-logs
-networks
-results
+logs/
+networks/
+results/
 resilience_env.yml
 run.sh
