@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 __pycache__/
 .vscode/
 
@@ -9,4 +6,3 @@ networks/
 results/
 resilience_env.yml
 run.sh
->>>>>>> v1
